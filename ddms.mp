@@ -23,7 +23,7 @@ spec = {
 "exe_command": "nodejs " + __dirname + "/par2param.js",
 "version": 0.1,
 "inputs": [{"name":"inputParFile", "optional":false}],
-"outputs": [{"name":"ouputJSONFile", "optional":false}], 
+"outputs": [{"name":"outputJSONFile", "optional":false}], 
 "parameters": [],
 "opts": {"force_run":true}
 }

@@ -36,9 +36,9 @@ function main(inputs,outputs,parameters,opts) {
     });
   }
   
+
   foreach_async(all_runs,{},function(run,cb) {
     console.log (`Running ${run.spike_sorter_name} on ${run.dataset_id}`);
-    
     console.log(JSON.stringify(run.dataset.parameters));
     
     var timeseries_files=collect_timeseries_files(run.dataset);
@@ -86,13 +86,14 @@ function ms4_sort(timeseries_files,ds_params) {
   var dims=[ds_params.num_channels,-1];
   results.raw=convert_to_mda(timeseries_files[0].file,{
       dimensions:dims.join(','),
-      dtype:ds_params.dtype
+      dtype:ds_params.dtype,
+      channels:ds_params.all_channels
   });
   results.filt=bandpass_filter(results.raw,{samplerate:ds_params.samplerate,freq_min:300,freq_max:6000});
   results.pre=whiten(results.filt);
   var sort_params={
     detect_sign:ds_params.spike_sign,
-    adjacency_radius:-1
+    adjacency_radius:ds_params.adjacency_radius
   };
   results.firings=ms4alg_sort(results.pre,sort_params);
   return results;
@@ -186,7 +187,8 @@ function collect_timeseries_files(dataset) {
   for (var fname in dataset.files) {
     if (ends_with(fname,'.dat')) {
       ret.push({fname:fname,file:dataset.files[fname]});
-    }
+    console.log(JSON.stringify(dataset.files[fname]));
+      }
   }
   return ret;
 }
