@@ -13,7 +13,11 @@ var t = Par.readPar(inputFile, function (err,data)
                   console.log("Error reading par file");
               } else {
                   var arr = [].concat(...data["tetrodes"]);
-                  console.log(arr.map(function(x) {return x}).join(","));
+                  var channels = arr.map(function(x) {return x}).join(",");
+                  fs.writeFile("data/channels.csv", channels, function(err) {
+                      if(err) {console.log(err);}
+                      console.log("Success");
+                  });
               }
     }
-    );
+);

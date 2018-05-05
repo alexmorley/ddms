@@ -13,13 +13,18 @@ var t = Par.readPar(inputFile, function (err,data)
                   console.log("Error reading par file");
               } else {
                   var arr = data["tetrodes"];
+                  var geomcsv = ''
                   for (var i=0; i < arr.length; i++) {
                       var offset = 100*i;
-                      console.log(offset+","+offset);
-                      console.log((offset-25)+","+(offset+25));
-                      console.log((offset+25)+","+(offset+25));
-                      console.log(offset+","+(offset+50));
+                      geomcsv = geomcsv + offset +    "," + offset   +'\n';
+                      geomcsv = geomcsv + (offset-25)+","+(offset+25)+'\n';
+                      geomcsv = geomcsv + (offset+25)+","+(offset+25)+'\n';
+                      geomcsv = geomcsv + offset+     ","+(offset+50)+'\n';
                   }
-              }
-    }
+
+                  fs.writeFile("data/geom.csv", geomcsv, function(err) {
+                      if(err) {return console.log(err);}
+                      console.log("Success.");
+              });
+              }}
     );
