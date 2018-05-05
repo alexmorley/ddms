@@ -1,15 +1,17 @@
 const fs = require('fs');
 module.exports = {
-    readPar: function readPar(inputFile, callback) {
+    read: function readPar(inputFile, callback) {
         fs.readFile(inputFile, 'ascii', function(err, data) {
             if(err) {
                 callback(err);
             }
             lines = data.split('\n');
             
-            var [nchans,dtype]   = lines[0].split(" ");
-            var [srate, eeg]     = lines[1].split(" ");
-            var [ntet,  refchan] = lines[2].split(" ");
+            var [nchans,dtype]    = lines[0].split(" ");
+            var [resolution, eeg] = lines[1].split(" ");
+            var [ntet,  refchan]  = lines[2].split(" ");
+            var samplerate        = parseInt((1/resolution)*1000000);
+
             ntet = Number(ntet)
             var tetrodes = [];
             var chans
@@ -18,7 +20,7 @@ module.exports = {
                 tetrodes[i] = chans.slice(1,chans[0]+1); 
             }
 
-            var nsess = lines[15].split(" ");
+            var nsess = lines[ntet+3].split(" ");
             var sessions = {};
             for (var i = 0; i < nsess; i++){
                 sessions[i+1] = lines[4+ntet+i].split(" "); 
@@ -27,7 +29,8 @@ module.exports = {
             tree = {
                 nchans,
                 dtype,
-                srate,
+                resolution,
+                samplerate,
                 eeg,
                 ntet,
                 refchan,
@@ -39,10 +42,12 @@ module.exports = {
             callback(null,tree);
         });
     },
-    writePar: function writeParJSON(inPutFile) {
-        tree = readPar(inputFile);
-        fs.writeFile(inputFile+'.json', JSON.stringify(tree), 'utf8', function(err,data){
-            if(err) {console.log("Error");}
+    read_write: function writeParJSON(inputFile, outputFile=inputFile+'.json', cb) {
+        this.read(inputFile, function (err,data) {
+            fs.writeFile(outputFile, JSON.stringify(data, null, 2), 'utf8', function(err){
+                if(err) {console.log("Error");}
+            });
         });
+        cb();
     }
 }
