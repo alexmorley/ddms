@@ -1,9 +1,26 @@
+"use strict"
 exports.main=main;
 exports.spec=spec;
 
-//var study0=_MLS.loadStudy({owner:'jmagland@flatironinstitute.org',title:'jfm_synth.mls'});
-var study0=_MLS.study; // study object that will be linked to dataset files
+var data_location = 'local'
 
+var study0 // study object that will be linked to dataset files
+switch(data_location) {
+    case 'local':
+        study0=_MLS.study;
+        break;
+    case 'remote':
+        study0=_MLS.loadStudy({owner:'jmagland@flatironinstitute.org',title:'jfm_synth.mls'});
+        break;
+    case 'rsync'
+        console.error('Not Implemented Yet');
+        // Copy Files and set up directories as required
+        // Will also need to implement copying back after
+    default:
+        console.error('Must set data_location.')
+}
+
+// Print what this pipeline needs...
 function spec() {
   return {
     inputs:[],
@@ -18,6 +35,7 @@ function spec() {
   };
 }
 
+
 function main(inputs,outputs,parameters,opts) {
   var study=study0;
   var datasets=study.datasets;
@@ -25,6 +43,7 @@ function main(inputs,outputs,parameters,opts) {
   console.log("Datasets to sort: "+datasets);
 
   // We can add another sorter here if we want to try different pipelines
+  // BUT in that case we might need to change output file names a bit
   var all_runs=[];
   for (var ds_id in datasets) {
       console.log(ds_id);
@@ -35,11 +54,12 @@ function main(inputs,outputs,parameters,opts) {
       spike_sorter:MS4
     });
   }
-  
-
+ 
+  // This is the main (async) loop that runs the sorting 
   foreach_async(all_runs,{},function(run,cb) {
     console.log (`Running ${run.spike_sorter_name} on ${run.dataset_id}`);
-    console.log(JSON.stringify(run.dataset.parameters));
+    console.log("Using Paramaters: 
+        ${JSON.stringify(run.dataset.parameters)}");
     
     var timeseries_files=collect_timeseries_files(run.dataset);
     if (timeseries_files.length===0) {
@@ -54,12 +74,20 @@ function main(inputs,outputs,parameters,opts) {
     for (var i in timeseries_files) {
       console.log (timeseries_files[i].fname);
     }
+
+    // Do the sorting
     var results=run.spike_sorter.sort(timeseries_files,run.dataset.parameters);
+    
+    // Set the results in the Study
     _MLS.setResult(run.dataset_id+'/raw.mda',results.raw);
     _MLS.setResult(run.dataset_id+'/firings.mda',results.firings);
+
+    // Upload Results if not local
     if (parameters.upload_results=='true') {
       _MLS.upload(results.firings);
     }
+
+    // Compute and upload summary stats
     var summary_results=compute_summary_results(results);
     for (var key in summary_results) {
       _MLS.setResult(run.dataset_id+'/'+key,summary_results[key]);
@@ -84,17 +112,23 @@ var MS4={
 function ms4_sort(timeseries_files,ds_params) {
   var results={};
   var dims=[ds_params.num_channels,-1];
+  // Convert Timeseries Files to mda (from .dat)
   results.raw=convert_to_mda(timeseries_files[0].file,{
       dimensions:dims.join(','),
       dtype:ds_params.dtype,
       channels:ds_params.all_channels
   });
+  // Filter (these options should be accessible somewhere ...
   results.filt=bandpass_filter(results.raw,{samplerate:ds_params.samplerate,freq_min:300,freq_max:6000});
+  // Whiten (maybe optional)
   results.pre=whiten(results.filt);
+  // Get sorting params from dataset parameters
+  // Should sorting params also be accessible from mls command?
   var sort_params={
     detect_sign:ds_params.spike_sign,
     adjacency_radius:ds_params.adjacency_radius
   };
+  // Run actual sorting
   results.firings=ms4alg_sort(results.pre,sort_params);
   return results;
 }
