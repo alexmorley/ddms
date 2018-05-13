@@ -1,0 +1,22 @@
+{
+  "name": "ddms",
+  "version": "0.0.1",
+  "description": "Custom Utilities for MountainLab",
+  "main": "ddms.mp",
+  "scripts": {
+    "test": "ddms.mp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexmorley/ddms.git"
+  },
+  "author": "Alexander Morley",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/alexmorley/ddms/issues"
+  },
+  "homepage": "https://github.com/alexmorley/ddms#readme",
+  "dependencies": {
+    "commander": "^2.15.1"
+  }
+}
