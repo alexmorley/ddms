@@ -1,2 +1,2 @@
 #!/bin/sh
-python3 `dirname "$0"`/ddmspy.py "$@"
+python3 `dirname "$0"`/py/ddmspy.py "$@"
