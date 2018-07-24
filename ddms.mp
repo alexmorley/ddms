@@ -22,17 +22,20 @@ spec = {
             "name": "dd.par2param",
             "exe_command": "nodejs " + __dirname + "/js/par2param.js",
             "version": 0.1,
-            "inputs": [{"name":"inputParFile", "optional":false}],
-            "outputs": [{"name":"outputJSONFile", "optional":false}], 
+
             "parameters": [],
             "opts": {"force_run":true}
         },{
             "name": "dd.make_tmp_datasets",
             "exe_command": "nodejs " + __dirname + "/js/make_tmp_datasets.js" +" $(arguments)",
             "version": 0.121,
-            "inputs": [],
-            "outputs": [], 
-            "parameters": [{"name":"basename", "optional":false},{"name":"tmpdir","optional":false}, {"name":"rawpath", "optional":false},{"name":"rawhost", "optional":false}],
+            "inputs": [{"name":"rawpaths","optional":false}],
+            "outputs": [{"name":"params","optional":true}], //,{"name":"tmppath","optional":false}], 
+            "parameters": [
+                {"name":"basename", "optional":false},
+                {"name":"rawhost", "optional":false},
+                {"name":"tmpdir", "optional":false}
+            ],
             "opts": {"force_run":true}
         }
     ]

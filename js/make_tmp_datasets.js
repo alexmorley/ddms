@@ -11,11 +11,20 @@ program
     .option('-b, --basename [bsnm]', 'Recording Day Identifier', '')
     .option('-t, --tmpdir [tmpdir]',   'Temporary Directory for Datasets', '')
     .option('-t, --_tempdir [tmpdir]')
-    .option('-r, --rawpath [/vtadX/XXX_raw/xx10-160604/]','')
+    .option('-p, --params','params.json output')
+    .option('-r, --rawpaths [/vtadX/XXX_raw/xx10-160604/]','')
     .option('-h, --rawhost [data@vta]','')
-    .parse(process.argv);
+    .parse(process.argv)
 
-console.log(program.tmpdir);
+var searchstr = '--rawpaths=/mnfs';
+program.rawpaths = process.argv.filter(function (x) {
+    console.log(x);
+    var yes = x.startsWith(searchstr);
+    return yes})
+.map(function(el) {
+    return el.slice(searchstr.length,el.length);
+});
+
 // Make the Dataset Path if it doesn't exist
 var datasetPath = path.join(program.tmpdir, 'datasets', program.basename);
 if (!(fs.existsSync(datasetPath))) {
@@ -42,18 +51,20 @@ var t = Par.read_write(tmpParPath, paramsPath, function (err)
 // Then copy all of the dat files
 // We use rsync's archiv mode to prevent copying if the files
 // are already there
-var rsync = new Rsync()
-  .shell('ssh')
-  .flags('a')
-  .set('progress')
-  .source(program.rawhost+':'+program.rawpath)
-  .destination(datasetPath+'/');
+program.rawpaths.forEach( function(rawpath) {
+    var rsync = new Rsync()
+      .shell('ssh')
+      .flags('a')
+      .set('progress')
+      .source(program.rawhost+':'+rawpath)
+      .destination(datasetPath+'/');
 
-// Execute the command
-rsync.execute(function(err, code, cmd) {
-    console.log(cmd);
-    if (!(err)) {console.log("Success ", cmd);
-    } else if (err) {
-        console.log("Error: ", err);
-    }
-});
+    // Execute the command
+    rsync.execute(function(err, code, cmd) {
+        console.log(cmd);
+        if (!(err)) {console.log("Success ", cmd);
+        } else if (err) {
+            console.log("Error: ", err);
+        }
+    });
+})
