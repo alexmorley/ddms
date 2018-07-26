@@ -1,0 +1,1 @@
+ml-exec-process dd.make_tmp_datasets --inputs rawpaths:/mnfs/vtad3/data/amorley_raw/am10/am10-170213/am10-170213_01.dat rawpaths:/mnfs/vtad3/data/amorley_raw/am10/am10-170213/am10-170213_02.dat --outputs params:/spiketmp/am10-170213/params.json --parameters basename:am10-170213 tmpdir:/spiketmp rawhost:data@vta

@@ -9,6 +9,7 @@ const Rsync = require('./rsync');
 program
     .version('0.0.1')
     .option('-b, --basename [bsnm]', 'Recording Day Identifier', '')
+    .option('-P, --procdir [proc_dir]',   'Proc Directory', '')
     .option('-t, --tmpdir [tmpdir]',   'Temporary Directory for Datasets', '')
     .option('-t, --_tempdir [tmpdir]')
     .option('-p, --params','params.json output')
@@ -34,7 +35,7 @@ if (!(fs.existsSync(datasetPath))) {
 // Copy the par file there
 var tmpParPath =  path.join(datasetPath, program.basename + '.par');
 if (!(fs.existsSync(tmpParPath))) {
-    fs.copyFileSync(program.basename+'.par', tmpParPath);
+    fs.copyFileSync(proc_dir + '/' + program.basename+'.par', tmpParPath);
 };
 
 // Convert the par file to params.json

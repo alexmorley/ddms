@@ -1,0 +1,144 @@
+{
+    "true_units": {
+        "1": {
+            "best_match": 32,
+            "accuracy": 1.0,
+            "num_matches": 1884,
+            "num_false_positives": 0,
+            "num_false_negatives": 0
+        },
+        "2": {
+            "best_match": 2,
+            "accuracy": 0.9989177489177489,
+            "num_matches": 1846,
+            "num_false_positives": 0,
+            "num_false_negatives": 2
+        },
+        "3": {
+            "best_match": 1,
+            "accuracy": 0.9842903575297941,
+            "num_matches": 1817,
+            "num_false_positives": 1,
+            "num_false_negatives": 28
+        },
+        "4": {
+            "best_match": 6,
+            "accuracy": 0.9776833156216791,
+            "num_matches": 1840,
+            "num_false_positives": 1,
+            "num_false_negatives": 41
+        },
+        "5": {
+            "best_match": 7,
+            "accuracy": 0.9973361747469366,
+            "num_matches": 1872,
+            "num_false_positives": 0,
+            "num_false_negatives": 5
+        },
+        "6": {
+            "best_match": 10,
+            "accuracy": 0.9930740543420352,
+            "num_matches": 1864,
+            "num_false_positives": 2,
+            "num_false_negatives": 11
+        },
+        "7": {
+            "best_match": 8,
+            "accuracy": 0.9493207941483803,
+            "num_matches": 1817,
+            "num_false_positives": 16,
+            "num_false_negatives": 81
+        },
+        "8": {
+            "best_match": 9,
+            "accuracy": 0.9904153354632588,
+            "num_matches": 1860,
+            "num_false_positives": 1,
+            "num_false_negatives": 17
+        },
+        "9": {
+            "best_match": 14,
+            "accuracy": 0.9757150566648678,
+            "num_matches": 1808,
+            "num_false_positives": 3,
+            "num_false_negatives": 42
+        },
+        "10": {
+            "best_match": 16,
+            "accuracy": 0.9919914575547251,
+            "num_matches": 1858,
+            "num_false_positives": 0,
+            "num_false_negatives": 15
+        },
+        "11": {
+            "best_match": 13,
+            "accuracy": 0.6935050993022007,
+            "num_matches": 1292,
+            "num_false_positives": 1,
+            "num_false_negatives": 570
+        },
+        "12": {
+            "best_match": 17,
+            "accuracy": 0.9860290166577109,
+            "num_matches": 1835,
+            "num_false_positives": 2,
+            "num_false_negatives": 24
+        },
+        "13": {
+            "best_match": 18,
+            "accuracy": 0.6186485070717653,
+            "num_matches": 1181,
+            "num_false_positives": 15,
+            "num_false_negatives": 713
+        },
+        "14": {
+            "best_match": 21,
+            "accuracy": 0.9763948497854077,
+            "num_matches": 1820,
+            "num_false_positives": 3,
+            "num_false_negatives": 41
+        },
+        "15": {
+            "best_match": 24,
+            "accuracy": 0.9903121636167922,
+            "num_matches": 1840,
+            "num_false_positives": 2,
+            "num_false_negatives": 16
+        },
+        "16": {
+            "best_match": 20,
+            "accuracy": 0.5533049040511727,
+            "num_matches": 1038,
+            "num_false_positives": 9,
+            "num_false_negatives": 829
+        },
+        "17": {
+            "best_match": 22,
+            "accuracy": 0.9588173178458289,
+            "num_matches": 1816,
+            "num_false_positives": 19,
+            "num_false_negatives": 59
+        },
+        "18": {
+            "best_match": 28,
+            "accuracy": 0.9967514889009204,
+            "num_matches": 1841,
+            "num_false_positives": 0,
+            "num_false_negatives": 6
+        },
+        "19": {
+            "best_match": 27,
+            "accuracy": 0.941083640189374,
+            "num_matches": 1789,
+            "num_false_positives": 41,
+            "num_false_negatives": 71
+        },
+        "20": {
+            "best_match": 31,
+            "accuracy": 0.9517060367454068,
+            "num_matches": 1813,
+            "num_false_positives": 26,
+            "num_false_negatives": 66
+        }
+    }
+}

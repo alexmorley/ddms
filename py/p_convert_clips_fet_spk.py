@@ -2,7 +2,7 @@ import numpy as np
 from sklearn import decomposition
 from sklearn.preprocessing import StandardScaler
 
-from mltools import mdaio
+from mountainlab_pytools import mdaio
 from timeserieschunkreader import TimeseriesChunkReader
 
 processor_name='dd.convert_clips_fet_spk'
@@ -68,7 +68,19 @@ def convert_clips_fet_spk(*,timeseries,firings,waveforms_out,ntro_nchannels,clip
         chans = tetmap[tro-1]
         inds_k=np.where(which_tet==tro)[0]
         
+        ###### Write .res file ######
+        res = times[inds_k]
+        res_fname = firings_out + '.res.' + tro
+        np.savetxt(res_fname, times, fmt='%d')
         
+        labels_tet   = labels[inds_k]
+        u_labels_tet = np.unique(labels_tet)
+        K            = len(u_labels_tet)
+        u_new_labels = np.argsort(u_labels_tet).argsort()+2
+        new_labels   = [u_new_labels[(l == np.array(u_labels_tet)).argmax()] for l in labels_tet]
+        clu_fname    = firings_out + '.clu.' + tro
+        np.savetxt(clu_fname, np.concatenate((np.array([K]),new_lables)), fmt='%d')
+
         if DEBUG:
             print("Tetrode: "+str(tro))
             print("Chans: "+str(chans))
@@ -109,5 +121,3 @@ def convert_clips_fet_spk(*,timeseries,firings,waveforms_out,ntro_nchannels,clip
 
 convert_clips_fet_spk.name=processor_name
 convert_clips_fet_spk.version=processor_version
-
-
